@@ -2,26 +2,45 @@ require("dotenv").config()
 
 const express = require("express")
 const cors = require("cors")
+const { Pool } = require('pg')
 
 const app = express()
 
 app.use(express.json())
 app.use(cors())
 
-const notes = []
-
-app.get("/notes", (req, res) => {
-    res.json(notes)
+// PostgreSQL connection
+const pool = new pool({
+    connectionString: process.env.DATABASE_URL,
 })
 
-app.post("/notes", (req, res) => {
-    const { text } = req.body
+// Create table if it doesn't exist
+pool.query(`
+    CREATE TABLE IF NOT EXISTS notes (
+    id SERIAL PRIMARY KEY,
+    text TEXT NOT NULL
+  )
+`)
 
-    if (text) {
-        notes.push(text)
-        res.status(201).json({ message: "Note added!" })
-    } else {
-        res.status(400).json({ error:"Note text is required" })
+app.get("/notes", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM notes")
+        res.json(result.rows)
+    } catch (error) {
+        res.status(500).json({ error: error.message})
+    }
+})
+
+app.post("/notes", async (req, res) => {
+    
+    const { text } = req.body
+    if (!text) {
+        return res.status(400).json({ error: "Note text is required" })
+    }
+
+    try {
+        await pool.query("INSERT INTO notes (text) VALUES ($1)", [text])
+        res.status(201).json({ message: "Note added" })
     }
 })
 
