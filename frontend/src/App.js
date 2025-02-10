@@ -1,7 +1,9 @@
 //import logo from './logo.svg'
-import './App.css'
 
+import './App.css'
 import React, {useEffect, useState} from 'react'
+
+const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000"
 
 function App() {
 
@@ -10,14 +12,14 @@ function App() {
   const [newNote, setNewNote] = useState("")
 
   useEffect(() => {
-    fetch("http://localhost:5000/notes")
+    fetch(`${apiUrl}/notes`)
     .then((response) => response.json())
     .then((data) => setNotes(data))
   }, [])
 
   const handleAddNote = () => {
     if (newNote.trim()) {
-      fetch("http://localhost:5000/notes", {
+      fetch(`${apiUrl}/notes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: newNote }),
@@ -30,13 +32,13 @@ function App() {
   }
 
   const fetchNotes = () => {
-    fetch("http://localhost:5000/notes")
+    fetch(`${apiUrl}/notes`)
       .then((response) => response.json())
       .then((data) => setNotes(data))
   }
 
   const handleDeleteNote = (id) => {
-    fetch(`http://localhost:5000/notes/${id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/notes/${id}`, {
       method: "DELETE",
     })
     .then(() => {
