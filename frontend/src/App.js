@@ -3,7 +3,7 @@
 import './App.css'
 import React, {useEffect, useState} from 'react'
 
-const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000"
+const apiUrl = process.env.REACT_APP_API_URL || "https://notes-app-ds1r.onrender.com"
 
 function App() {
 
