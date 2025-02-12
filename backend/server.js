@@ -12,6 +12,7 @@ app.use(cors())
 // PostgreSQL connection
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
 })
 
 // Create table if it doesn't exist
