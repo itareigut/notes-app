@@ -12,9 +12,7 @@ function App() {
   const [newNote, setNewNote] = useState("")
 
   useEffect(() => {
-    fetch(`${apiUrl}/notes`)
-    .then((response) => response.json())
-    .then((data) => setNotes(data))
+    fetchNotes()
   }, [])
 
   const handleAddNote = () => {
@@ -32,9 +30,11 @@ function App() {
   }
 
   const fetchNotes = () => {
-    fetch(`${apiUrl}/notes`)
-      .then((response) => response.json())
-      .then((data) => setNotes(data))
+    fetch(`${apiUrl}/notes`, {
+      method: "GET",
+    })
+    .then((response) => response.json())
+    .then((data) => setNotes(data))
   }
 
   const handleDeleteNote = (id) => {
