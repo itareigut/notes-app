@@ -38,9 +38,7 @@ function App() {
   }
 
   const handleDeleteNote = (id) => {
-    fetch(`${process.env.REACT_APP_API_URL}/notes/${id}`, {
-      method: "DELETE",
-    })
+    fetch(`${apiUrl}/notes/${id}`, { method: "DELETE" })
     .then(() => {
       setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id))
     })
