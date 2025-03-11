@@ -38,10 +38,10 @@ function App() {
   }
 
   const handleDeleteNote = (id) => {
-    fetch(`${apiUrl}/notes/${id}`, { method: "DELETE" })
-    .then(() => {
-      setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id))
+    fetch(`${apiUrl}/notes/${id}`, { 
+      method: "DELETE",
     })
+    .then(() => { setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id)) })
   }
 
   return (
